@@ -65,3 +65,18 @@
 .sidebar-lists a:hover {
   color: #ddd;
 }
+
+.sidebar-lists li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sidebar-lists button {
+  padding: 3px;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}

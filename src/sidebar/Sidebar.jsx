@@ -1,34 +1,24 @@
-import { useState, useEffect } from "react";
-import React from 'react';
+import React, { useState } from 'react';
 import './Sidebar.css';
 
-function Sidebar() {
-  const [todos, setTodos] = useState(() => getTodos());
+function Sidebar({ lists, switchList, activeList, addList, deleteList }) {
   const [inputValue, setInputValue] = useState('');
 
-  useEffect(() => {
-    saveTodos(todos);
-  }, [todos]);
-
-  const addTodo = (e) => {
+  const handleAddList = (e) => {
     e.preventDefault();
-    if (inputValue.trim().length > 0) {
-      setTodos([...todos, { text: inputValue, completed: false }]);
+    if (inputValue.trim() && !lists.includes(inputValue)) {
+      addList(inputValue.trim());
       setInputValue('');
     }
   };
 
-  const deleteTodo = (index) => {
-    setTodos(todos.filter((_, i) => i !== index));
-  };
-
   return (
     <div className="sidebar">
-      <form onSubmit={addTodo} spellCheck="false">
+      <form onSubmit={handleAddList} spellCheck="false">
         <input
           type="text"
           id="list-input"
-          placeholder="new list"
+          placeholder="New list"
           autoComplete="off"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
@@ -38,22 +28,31 @@ function Sidebar() {
         </button>
       </form>
       <ul className="sidebar-lists">
-        <li><a href="/list1">List 1</a></li>
-        <li><a href="/list2">List 2</a></li>
-        <li><a href="/list3">List 3</a></li>
-        <li><a href="/list4">List 4</a></li>
+        {lists.map((listName, index) => (
+          <li key={index}>
+            <a
+              href="#"
+              className={activeList === listName ? 'active' : ''}
+              onClick={() => switchList(listName)}
+            >
+              {listName}
+            </a>
+            <button className="delete-button" onClick={() => deleteList(listName)}>
+              <svg
+                fill="hsl(0, 0%, 90%)"
+                xmlns="http://www.w3.org/2000/svg"
+                height="20px"
+                viewBox="0 -960 960 960"
+                width="20px"
+              >
+                <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
+              </svg>
+            </button>
+          </li>
+        ))}
       </ul>
     </div>
   );
-}
-
-function saveTodos(todos) {
-  localStorage.setItem('todos', JSON.stringify(todos));
-}
-
-function getTodos() {
-  const todos = localStorage.getItem('todos');
-  return todos ? JSON.parse(todos) : [];
 }
 
 export default Sidebar;

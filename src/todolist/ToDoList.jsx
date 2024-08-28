@@ -1,14 +1,16 @@
-// ToDoList.js
 import React, { useState, useEffect } from 'react';
 import './ToDoList.css';
 
-function ToDoList() {
-  const [todos, setTodos] = useState(() => getTodos());
-  const [inputValue, setInputValue] = useState('');
+function ToDoList({ activeList }) {
+  const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    saveTodos(todos);
-  }, [todos]);
+    setTodos(getTodos(activeList)); // Load the todos for the active list whenever it changes
+  }, [activeList]);
+
+  useEffect(() => {
+    saveTodos(activeList, todos); // Save the todos whenever they change
+  }, [todos, activeList]);
 
   const addTodo = (e) => {
     e.preventDefault();
@@ -28,6 +30,8 @@ function ToDoList() {
     );
     setTodos(updatedTodos);
   };
+
+  const [inputValue, setInputValue] = useState('');
 
   return (
     <div className="wrapper">
@@ -74,12 +78,12 @@ function ToDoList() {
   );
 }
 
-function saveTodos(todos) {
-  localStorage.setItem('todos', JSON.stringify(todos));
+function saveTodos(listName, todos) {
+  localStorage.setItem(`todos-${listName}`, JSON.stringify(todos));
 }
 
-function getTodos() {
-  const todos = localStorage.getItem('todos');
+function getTodos(listName) {
+  const todos = localStorage.getItem(`todos-${listName}`);
   return todos ? JSON.parse(todos) : [];
 }
 

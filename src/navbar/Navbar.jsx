@@ -1,8 +1,15 @@
-// Navbar.js
-import React from 'react';
+import React, { useState } from 'react';
 import './Navbar.css';
 
-function Navbar({ toggleSidebar }) {
+function Navbar({ toggleSidebar, handleSearch, searchResults, onResultClick }) {
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleInputChange = (e) => {
+    const query = e.target.value;
+    handleSearch(query);
+    setShowDropdown(query.length > 0);
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-logo" onClick={toggleSidebar}>
@@ -10,7 +17,22 @@ function Navbar({ toggleSidebar }) {
       </div>
 
       <div className="navbar-search">
-        <input type="text" placeholder="Search tasks..." />
+        <input
+          type="text"
+          placeholder="Search tasks..."
+          onChange={handleInputChange}
+          onFocus={() => setShowDropdown(true)}
+          onBlur={() => setTimeout(() => setShowDropdown(false), 100)} // Timeout to allow clicking on dropdown items
+        />
+        {showDropdown && searchResults.length > 0 && (
+          <ul className="search-dropdown">
+            {searchResults.map((result, index) => (
+              <li key={index} onClick={() => onResultClick(result.listName)}>
+                {result.todo.text} - <em>{result.listName}</em>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <div className="navbar-notifications">

@@ -6,8 +6,10 @@ import './App.css';
 
 function App() {
   const [isSidebarVisible, setSidebarVisible] = useState(true);
-  const [lists, setLists] = useState(['List 1', 'List 2', 'List 3', 'List 4']); // Initialize with default lists
+  const [lists, setLists] = useState(['List 1', 'List 2', 'List 3', 'List 4']);
   const [activeList, setActiveList] = useState('List 1');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   const toggleSidebar = () => {
     setSidebarVisible(!isSidebarVisible);
@@ -20,7 +22,7 @@ function App() {
   const addList = (listName) => {
     if (!lists.includes(listName)) {
       setLists([...lists, listName]);
-      setActiveList(listName); // Automatically switch to the new list
+      setActiveList(listName);
     }
   };
 
@@ -28,15 +30,40 @@ function App() {
     const updatedLists = lists.filter((list) => list !== listName);
     setLists(updatedLists);
     if (activeList === listName && updatedLists.length > 0) {
-      setActiveList(updatedLists[0]); // Switch to the first list if the active one is deleted
+      setActiveList(updatedLists[0]);
     } else if (updatedLists.length === 0) {
-      setActiveList(''); // Handle case where all lists are deleted
+      setActiveList('');
     }
+  };
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    const results = [];
+    lists.forEach((listName) => {
+      const todos = getTodos(listName);
+      todos.forEach((todo) => {
+        if (todo.text.toLowerCase().includes(query.toLowerCase())) {
+          results.push({ listName, todo });
+        }
+      });
+    });
+    setSearchResults(results);
+  };
+
+  const onResultClick = (listName) => {
+    switchList(listName);
+    setSearchQuery(''); // Clear search query
+    setSearchResults([]); // Clear search results
   };
 
   return (
     <div className="App">
-      <Navbar toggleSidebar={toggleSidebar} />
+      <Navbar
+        toggleSidebar={toggleSidebar}
+        handleSearch={handleSearch}
+        searchResults={searchResults}
+        onResultClick={onResultClick}
+      />
       <div className="main-content">
         {isSidebarVisible && (
           <Sidebar
@@ -48,11 +75,18 @@ function App() {
           />
         )}
         <div className="content">
-          {activeList && <ToDoList activeList={activeList} />}
+          {activeList && (
+            <ToDoList activeList={activeList} searchQuery={searchQuery} />
+          )}
         </div>
       </div>
     </div>
   );
+}
+
+function getTodos(listName) {
+  const todos = localStorage.getItem(`todos-${listName}`);
+  return todos ? JSON.parse(todos) : [];
 }
 
 export default App;

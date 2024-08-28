@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import './ToDoList.css';
 
 function ToDoList({ activeList }) {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(() => getTodos(activeList));
+  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    setTodos(getTodos(activeList)); // Load the todos for the active list whenever it changes
+    setTodos(getTodos(activeList));
   }, [activeList]);
 
   useEffect(() => {
-    saveTodos(activeList, todos); // Save the todos whenever they change
-  }, [todos, activeList]);
+    saveTodos(activeList, todos);
+  }, [todos]);
 
   const addTodo = (e) => {
     e.preventDefault();
@@ -30,8 +31,6 @@ function ToDoList({ activeList }) {
     );
     setTodos(updatedTodos);
   };
-
-  const [inputValue, setInputValue] = useState('');
 
   return (
     <div className="wrapper">

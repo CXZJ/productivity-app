@@ -6,7 +6,7 @@ import './App.css';
 
 function App() {
   const [isSidebarVisible, setSidebarVisible] = useState(true);
-  const [lists, setLists] = useState(['List 1', 'List 2', 'List 3', 'List 4']);
+  const [lists, setLists] = useState(['List 1', 'List 2', 'List 3']);
   const [activeList, setActiveList] = useState('List 1');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);

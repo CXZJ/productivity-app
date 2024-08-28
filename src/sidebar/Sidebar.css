@@ -1,0 +1,67 @@
+/* Sidebar.css */
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  background-color: hsl(0, 0%, 18%);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar form {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.sidebar #add-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  height: 100%;
+  border: none;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sidebar #list-input {
+  box-sizing: border-box;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  font: inherit;
+}
+
+.sidebar #list-input:focus{
+  outline: none;
+}
+.sidebar-lists {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar-lists li {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-lists a {
+  color: #e8eaed;
+  text-decoration: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-lists a svg {
+  margin-right: 10px; /* Adds space between the icon and the text */
+}
+
+.sidebar-lists a:hover {
+  color: #ddd;
+}

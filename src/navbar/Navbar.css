@@ -1,0 +1,74 @@
+/* Navbar.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Centers items vertically */
+  background-color: #333;
+  padding: 10px 20px;
+  height: 60px;
+}
+
+.navbar-logo a,
+.navbar-notifications a {
+  display: flex;
+  align-items: center; /* Ensures the SVG is centered vertically */
+}
+
+.navbar-search {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  margin: 0 20px;
+}
+
+.navbar-search input {
+  width: 100%;
+  max-width: 600px;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  box-sizing: border-box;
+}
+
+.navbar-search input:focus {
+  outline: none;
+}
+
+.navbar-notifications a {
+  color: #fff;
+  font-size: 28px;
+  text-decoration: none;
+}
+
+.navbar-notifications a:hover {
+  color: #ddd;
+}
+
+/* Media queries for small screens */
+@media (max-width: 768px) {
+  .navbar-search {
+    margin: 0 10px;
+  }
+
+  .navbar-search input {
+    max-width: 400px;
+  }
+
+  .navbar-notifications a {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-search {
+    margin: 0 5px;
+  }
+
+  .navbar-search input {
+    max-width: 300px;
+  }
+
+  .navbar-notifications a {
+    font-size: 22px;
+  }
+}
